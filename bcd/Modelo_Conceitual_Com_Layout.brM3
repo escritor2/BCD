@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<brmodelo>
+  <entities>
+    <entity name="Fornecedor" x="100" y="100">
+      <attribute name="Fcodigo" key="true"/>
+      <attribute name="Fnome"/>
+      <attribute name="Status"/>
+      <attribute name="Cidade"/>
+    </entity>
+    <entity name="Peca" x="400" y="100">
+      <attribute name="Pcodigo" key="true"/>
+      <attribute name="Pnome"/>
+      <attribute name="Cor"/>
+      <attribute name="Peso"/>
+      <attribute name="Cidade"/>
+    </entity>
+    <entity name="Instituicao" x="100" y="300">
+      <attribute name="Icodigo" key="true"/>
+      <attribute name="Nome"/>
+    </entity>
+    <entity name="Projeto" x="400" y="300">
+      <attribute name="PRcod" key="true"/>
+      <attribute name="PRnome"/>
+      <attribute name="Cidade"/>
+      <attribute name="Icod" fk="true"/>
+    </entity>
+    <relationship name="Fornecimento" x="250" y="200">
+      <attribute name="Quantidade"/>
+      <fk entity="Fornecedor" attribute="Fcodigo"/>
+      <fk entity="Peca" attribute="Pcodigo"/>
+      <fk entity="Projeto" attribute="PRcod"/>
+    </relationship>
+  </entities>
+</brmodelo>
