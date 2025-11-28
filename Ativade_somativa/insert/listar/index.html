@@ -1,13 +1,119 @@
-<form action="inserir.php" method="post">
-    <label>Cod_cliente:</label>
-    <input type="text" name="Cod_cliente" required><br>
-    <label>cpf:</label>
-    <input type="text" name="cpf" required><br>
-    <label>email:</label>
-    <input type="email" name="email" required><br>
-    <label>cep:</label>
-    <input type="text" name="cep" required><br>
-    <label>data_nascimento:</label>
-    <input type="date" name="data_nascimento" required><br>
-    <button type="submit">Enviar</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Tech Solutions</title>
+    <link rel="stylesheet" href="mecanica.css">
+    <link rel="icon" href="icon/logo-sem-fundo.png">
+</head>
+<body>
+   <header>
+    <div class="container">
+        <img src="icon/logo-fundo.png" alt="Logo Auto Tech Solutions" class="header-logo">
+        
+        <h1>Auto Tech Solutions</h1>
+    </div>
+</header>
+ <nav>
+    <div class="container">
+     <a href="index.html">Página Inicial</a>
+     <a href="listacliente.php">Lista de Cliente</a>
+     </div>
+    </nav>
+
+    <main class="container">
+    <div class="main-content">
+
+    <section class="form-section">
+    <h2>Cadastrar Cliente</h2>
+    <form action="cadastrarcliente.php" method="POST"> 
+    <div class="form-group"> 
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome_cliente" required>
+    </div>
+
+      <div class="form-group"> 
+        <label for="cpf">CPF:</label>
+        <input type="text" id="CPF" name="CPF" required>
+    </div>
+
+      <div class="form-group"> 
+        <label for="nome">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" required>
+    </div>
+
+    <div class="form-group"> 
+        <label for="nome">Veiculo(marca):</label>
+        <input type="text" id="veiculo" name="marca_veiculo" required>
+    </div>
+
+     <div class="form-group"> 
+        <label for="nome">Serviço:</label>
+        <input type="text" id="servico" name="servico" required>
+    </div>
+
+     <div class="form-group"> 
+        <label for="nome">Produto:</label>
+        <input type="text" id="produto" name="nome_produto" required>
+    </div>
+
+     <div class="form-group"> 
+        <label for="nome">Observacão:</label>
+        <input type="text" id="observacao" name="observacao" >
+    </div>
+
+      <button type="submit">Cadastrar Cliente</button>
+    </form>
+    </section>
+    </div>
+    </main>
+     <footer>
+        <div class="container">
+            <p>&copy; 2025 Auto Tech Solutions. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <div id="toast" class="toast-notification">Mensagem aqui</div>
+    <script>
+        const form = document.querySelector('.form-section form');
+        const toast = document.getElementById('toast');
+
+        form.addEventListener('submit', function(event) {
+            
+        
+            event.preventDefault(); 
+
+            
+            const formData = new FormData(this);
+
+            fetch('cadastrarcliente.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json()) 
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast(data.message, 'success');
+                    form.reset(); 
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showToast('Erro de rede. Tente novamente.', 'error');
+                console.error('Fetch Error:', error);
+            });
+        });
+
+        function showToast(message, type) {
+            toast.textContent = message;
+            toast.className = 'toast-notification ' + type;
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
