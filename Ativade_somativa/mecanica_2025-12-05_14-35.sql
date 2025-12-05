@@ -1,0 +1,343 @@
+-- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+--
+-- Host: localhost    Database: mecanica
+-- ------------------------------------------------------
+-- Server version	8.0.43
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `mecanica`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mecanica` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `mecanica`;
+
+--
+-- Table structure for table `cadastro`
+--
+
+DROP TABLE IF EXISTS `cadastro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cadastro` (
+  `Id_cliente` int NOT NULL,
+  `Nome` varchar(100) NOT NULL,
+  `CNPJ_CPF` varchar(14) DEFAULT NULL,
+  `Telefone` varchar(20) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id_cliente`),
+  UNIQUE KEY `CNPJ_CPF` (`CNPJ_CPF`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cadastro`
+--
+
+LOCK TABLES `cadastro` WRITE;
+/*!40000 ALTER TABLE `cadastro` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cadastro` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `clientes` (
+  `Cod_cliente` int NOT NULL,
+  `CPF` char(11) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `CEP` char(8) DEFAULT NULL,
+  `Data_nascimento` date DEFAULT NULL,
+  PRIMARY KEY (`Cod_cliente`),
+  UNIQUE KEY `CPF` (`CPF`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'7366251','gabrielferreira0598@gmail.com','13482432','2025-11-28');
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contem`
+--
+
+DROP TABLE IF EXISTS `contem`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `contem` (
+  `Id_O_S` int NOT NULL,
+  `Id_serviço` int NOT NULL,
+  PRIMARY KEY (`Id_O_S`,`Id_serviço`),
+  KEY `Id_serviço` (`Id_serviço`),
+  CONSTRAINT `contem_ibfk_1` FOREIGN KEY (`Id_O_S`) REFERENCES `ordem_servico` (`Id_O_S`),
+  CONSTRAINT `contem_ibfk_2` FOREIGN KEY (`Id_serviço`) REFERENCES `serviços` (`Id_serviço`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contem`
+--
+
+LOCK TABLES `contem` WRITE;
+/*!40000 ALTER TABLE `contem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contem` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estoque`
+--
+
+DROP TABLE IF EXISTS `estoque`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `estoque` (
+  `Id_estoque` int NOT NULL,
+  `Quantidade_atual` int NOT NULL,
+  `Localização` varchar(50) DEFAULT NULL,
+  `Estoque_minimo` int DEFAULT NULL,
+  `Id_produto` int NOT NULL,
+  PRIMARY KEY (`Id_estoque`),
+  UNIQUE KEY `Id_produto` (`Id_produto`),
+  CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`Id_produto`) REFERENCES `produtos` (`Id_produtos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estoque`
+--
+
+LOCK TABLES `estoque` WRITE;
+/*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
+/*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `funcionarios`
+--
+
+DROP TABLE IF EXISTS `funcionarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `funcionarios` (
+  `Id_funcionario` int NOT NULL,
+  `Nome_completo` varchar(100) NOT NULL,
+  `CPF` char(11) DEFAULT NULL,
+  `Cargo` varchar(50) DEFAULT NULL,
+  `Salario` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`Id_funcionario`),
+  UNIQUE KEY `CPF` (`CPF`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `funcionarios`
+--
+
+LOCK TABLES `funcionarios` WRITE;
+/*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ordem_servico`
+--
+
+DROP TABLE IF EXISTS `ordem_servico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ordem_servico` (
+  `Id_O_S` int NOT NULL,
+  `Descrição` varchar(255) DEFAULT NULL,
+  `Data_abertura` date NOT NULL,
+  `Status` varchar(20) NOT NULL,
+  `Valor_total` decimal(10,2) DEFAULT NULL,
+  `Cod_cliente` int NOT NULL,
+  `Id_funcionario` int DEFAULT NULL,
+  PRIMARY KEY (`Id_O_S`),
+  KEY `Cod_cliente` (`Cod_cliente`),
+  KEY `Id_funcionario` (`Id_funcionario`),
+  CONSTRAINT `ordem_servico_ibfk_1` FOREIGN KEY (`Cod_cliente`) REFERENCES `clientes` (`Cod_cliente`),
+  CONSTRAINT `ordem_servico_ibfk_2` FOREIGN KEY (`Id_funcionario`) REFERENCES `funcionarios` (`Id_funcionario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ordem_servico`
+--
+
+LOCK TABLES `ordem_servico` WRITE;
+/*!40000 ALTER TABLE `ordem_servico` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ordem_servico` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `produtos`
+--
+
+DROP TABLE IF EXISTS `produtos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `produtos` (
+  `Id_produtos` int NOT NULL,
+  `Nome_produto` varchar(100) NOT NULL,
+  `Preco_venda` decimal(10,2) NOT NULL,
+  `Cod_barra` varchar(50) DEFAULT NULL,
+  `Unidade_medida` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`Id_produtos`),
+  UNIQUE KEY `Cod_barra` (`Cod_barra`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produtos`
+--
+
+LOCK TABLES `produtos` WRITE;
+/*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `realiza`
+--
+
+DROP TABLE IF EXISTS `realiza`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `realiza` (
+  `Cod_cliente` int NOT NULL,
+  `Id_cliente` int NOT NULL,
+  PRIMARY KEY (`Cod_cliente`,`Id_cliente`),
+  KEY `Id_cliente` (`Id_cliente`),
+  CONSTRAINT `realiza_ibfk_1` FOREIGN KEY (`Cod_cliente`) REFERENCES `clientes` (`Cod_cliente`),
+  CONSTRAINT `realiza_ibfk_2` FOREIGN KEY (`Id_cliente`) REFERENCES `cadastro` (`Id_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `realiza`
+--
+
+LOCK TABLES `realiza` WRITE;
+/*!40000 ALTER TABLE `realiza` DISABLE KEYS */;
+/*!40000 ALTER TABLE `realiza` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `serviços`
+--
+
+DROP TABLE IF EXISTS `serviços`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `serviços` (
+  `Id_serviço` int NOT NULL,
+  `Nome_serviço` varchar(80) NOT NULL,
+  `Descrição` varchar(255) DEFAULT NULL,
+  `Valor_base` decimal(10,2) NOT NULL,
+  `Duração_estimada` time DEFAULT NULL,
+  PRIMARY KEY (`Id_serviço`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `serviços`
+--
+
+LOCK TABLES `serviços` WRITE;
+/*!40000 ALTER TABLE `serviços` DISABLE KEYS */;
+/*!40000 ALTER TABLE `serviços` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `trabalha`
+--
+
+DROP TABLE IF EXISTS `trabalha`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `trabalha` (
+  `Id_serviço` int NOT NULL,
+  `Id_funcionario` int NOT NULL,
+  PRIMARY KEY (`Id_serviço`,`Id_funcionario`),
+  KEY `Id_funcionario` (`Id_funcionario`),
+  CONSTRAINT `trabalha_ibfk_1` FOREIGN KEY (`Id_serviço`) REFERENCES `serviços` (`Id_serviço`),
+  CONSTRAINT `trabalha_ibfk_2` FOREIGN KEY (`Id_funcionario`) REFERENCES `funcionarios` (`Id_funcionario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `trabalha`
+--
+
+LOCK TABLES `trabalha` WRITE;
+/*!40000 ALTER TABLE `trabalha` DISABLE KEYS */;
+/*!40000 ALTER TABLE `trabalha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usa`
+--
+
+DROP TABLE IF EXISTS `usa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usa` (
+  `Id_O_S` int NOT NULL,
+  `Id_produtos` int NOT NULL,
+  `Quantidade_usada` int NOT NULL,
+  PRIMARY KEY (`Id_O_S`,`Id_produtos`),
+  KEY `Id_produtos` (`Id_produtos`),
+  CONSTRAINT `usa_ibfk_1` FOREIGN KEY (`Id_O_S`) REFERENCES `ordem_servico` (`Id_O_S`),
+  CONSTRAINT `usa_ibfk_2` FOREIGN KEY (`Id_produtos`) REFERENCES `produtos` (`Id_produtos`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usa`
+--
+
+LOCK TABLES `usa` WRITE;
+/*!40000 ALTER TABLE `usa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'mecanica'
+--
+
+--
+-- Dumping routines for database 'mecanica'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-12-05 14:35:45
